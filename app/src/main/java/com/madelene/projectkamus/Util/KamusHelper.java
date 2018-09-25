@@ -39,16 +39,16 @@ public class KamusHelper {
     }
 
     public ArrayList<Kamus> query(boolean isEng, String kataCari){
-
+        ArrayList<Kamus> kamuss = new ArrayList<Kamus>();
         String table = "";
+        Cursor cursor;
         if(isEng){
             table= DatabaseContract.TABLE_KAMUS_ENG;
         }else{
             table= TABLE_KAMUS_IN;
         }
-        Cursor cursor;
 
-        if(kataCari!=null && !kataCari.isEmpty()){
+        if(kataCari!=null){
             cursor = database.query(table,null,DatabaseContract.KamusColumns.KATAA + " = ?", new String[]{kataCari},null,null,_ID +" DESC",null);
 
 
@@ -57,24 +57,23 @@ public class KamusHelper {
 
         }
 
-        ArrayList<Kamus> arrayList = new ArrayList<Kamus>();
+
         cursor.moveToFirst();
-        Kamus kamus;
-        if (cursor.getCount()>0) {
+        if (cursor.getCount()!=0) {
             while(!cursor.isAfterLast()){
-                kamus = new Kamus();
+                Kamus kamus = new Kamus();
                 kamus.setId(cursor.getInt(cursor.getColumnIndexOrThrow(_ID)));
                 kamus.setKata(cursor.getString(cursor.getColumnIndexOrThrow(DatabaseContract.KamusColumns.KATAA)));
                 kamus.setDeskripsi(cursor.getString(cursor.getColumnIndexOrThrow(DatabaseContract.KamusColumns.DESKRIPSI)));
 
-                arrayList.add(kamus);
+                kamuss.add(kamus);
                 cursor.moveToNext();
             }
 
         }
 
         cursor.close();
-        return arrayList;
+        return kamuss;
     }
 
     public long insert(boolean isEng, Kamus kamus){
