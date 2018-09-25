@@ -118,7 +118,7 @@ public class KamusHelper {
         return database.delete(table, DatabaseContract.KamusColumns._ID + " = ?", new String[]{String.valueOf(id)});
     }
 
-    public void insertBulk(boolean isEng, ArrayList<Kamus> data) {
+    public void insertBulk(boolean isEng, ArrayList<Kamus> kamuss) {
         String queryInsert = "";
         if(isEng){
             queryInsert = DatabaseHelper.SQL_INSERT_STATEMENT_ENG;
@@ -129,7 +129,7 @@ public class KamusHelper {
         }
         database.beginTransaction();
         SQLiteStatement stmt = database.compileStatement(queryInsert);
-        for (Kamus k : data) {
+        for (Kamus k : kamuss) {
             stmt.bindString(1, k.getKata());
             stmt.bindString(2, k.getDeskripsi());
             stmt.execute();
