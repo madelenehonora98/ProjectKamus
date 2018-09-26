@@ -47,14 +47,14 @@ public class KamusHelper {
         }else{
             table= TABLE_KAMUS_IN;
         }
-
-        if(kataCari!=null){
+        System.out.println("Kata Cari "+kataCari);
+        if(kataCari!=null && !kataCari.isEmpty()){
+            System.out.println("aaa");
             cursor = database.query(table,null,DatabaseContract.KamusColumns.KATAA + " = ?", new String[]{kataCari},null,null,_ID +" DESC",null);
 
-
         }else{
+            System.out.println("bbb");
             cursor = database.query(table,null,null,null,null,_ID +" DESC",null);
-
         }
 
 

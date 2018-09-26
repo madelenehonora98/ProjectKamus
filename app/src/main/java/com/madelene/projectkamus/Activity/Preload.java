@@ -2,6 +2,7 @@ package com.madelene.projectkamus.Activity;
 
 import android.content.Context;
 import android.content.Intent;
+import android.content.res.Resources;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.LoaderManager;
@@ -81,10 +82,8 @@ public class Preload extends AppCompatActivity implements LoaderManager.LoaderCa
         @Override
         public Void loadInBackground() {
             kamusHelper.open();
-            ArrayList<Kamus> engDictionary = loadDictionaryDataFromFile("english_indonesia");
-            ArrayList<Kamus> indDictionary = loadDictionaryDataFromFile("indonesia_english");
-            System.out.println(engDictionary);
-            System.out.println(indDictionary);
+            ArrayList engDictionary = loadDictionaryDataFromFile(R.raw.english_indonesia);
+            ArrayList indDictionary = loadDictionaryDataFromFile(R.raw.indonesia_english);
             if (!kamusPreference.isPreloadDataAvailable()) {
                 kamusHelper.insertBulk(true, engDictionary);
                 kamusHelper.insertBulk(false, indDictionary);
@@ -102,11 +101,12 @@ public class Preload extends AppCompatActivity implements LoaderManager.LoaderCa
             forceLoad();
         }
 
-        private ArrayList<Kamus> loadDictionaryDataFromFile(String fileName) {
+        private ArrayList<Kamus> loadDictionaryDataFromFile(int fileName) {
             ArrayList<Kamus> kamuss = new ArrayList<Kamus>();
             BufferedReader reader;
             try {
-                InputStream inputStream = getContext().getAssets().open(fileName);
+                Resources res = getContext().getResources();
+                InputStream inputStream = res.openRawResource(fileName);
                 reader = new BufferedReader(new InputStreamReader(inputStream));
                 String line;
                 while ((line = reader.readLine()) != null) {

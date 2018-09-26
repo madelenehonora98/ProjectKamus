@@ -39,12 +39,12 @@ public class MainActivity extends AppCompatActivity
     TextView txtSearch;
     @BindView(R.id.rvKata)
     RecyclerView rvKata;
-
+    @BindView(R.id.toolbar)
+    Toolbar toolbar;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
         ButterKnife.bind(this);
@@ -58,13 +58,13 @@ public class MainActivity extends AppCompatActivity
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
 
-//        RecyclerView.ItemDecoration decoration = new DividerItemDecoration(this, manager.getOrientation());
         rvKata.setLayoutManager(new LinearLayoutManager(this));
-//        rvData.addItemDecoration(decoration);
+
         rvKata.setAdapter(getKamusAdapter());
-//
+
         changeAdapterData(true, null);
         isEng = true;
+        toolbar.setTitle("English - Indonesia");
     }
 
     @Override
@@ -101,8 +101,12 @@ public class MainActivity extends AppCompatActivity
         if (id == R.id.en_in) {
             isEng = true;
 
+            toolbar.setTitle("English - Indonesia");
+
         } else if (id == R.id.in_en) {
             isEng = false;
+            toolbar.setTitle("Indonesia - English");
+
         }
         changeAdapterData(isEng,null);
 
